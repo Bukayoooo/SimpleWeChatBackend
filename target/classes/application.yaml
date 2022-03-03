@@ -1,0 +1,33 @@
+# tomcat端口号
+server:
+  address: 0.0.0.0
+  port: 8088
+
+# 数据库相关配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+#    password: Hz1 9.；9981004!
+    url: jdbc:mysql://localhost:3306/wechat
+    type: com.alibaba.druid.pool.DruidDataSource
+
+
+# MyBatis相关配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.lite.wechat.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# FastDFS相关配置
+fdfs:
+  so-timeout: 1501
+  connect-timeout: 601
+  thumb-image:    # fastdfs自动生成的80*80的小图
+    height: 80
+    width: 80
+  tracker-list: 121.41.84.238:22122
+

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lite.wechat.mapper.FriendsRequestMapper" >
+  <resultMap id="BaseResultMap" type="com.lite.wechat.domain.entity.FriendsRequest" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="send_user_id" property="sendUserId" jdbcType="VARCHAR" />
+    <result column="accept_user_id" property="acceptUserId" jdbcType="VARCHAR" />
+    <result column="request_date_time" property="requestDateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <insert id="insert">
+    insert into friends_request (id, send_user_id, accept_user_id, request_date_time)
+    values(#{id}, #{sendUserId}, #{acceptUserId},#{requestDateTime});
+  </insert>
+
+  <select id="queryFriendRequestByTwoId" resultType="FriendsRequest">
+    select * from friends_request where send_user_id = #{myUserId} and accept_user_id = #{friendUserId};
+  </select>
+
+  <!-- 多表查询 -->
+  <select id="queryFriendRequestsById" resultType="FriendsRequestVO" parameterType="String">
+    SELECT
+      sender.id AS sendUserId,
+      sender.username AS senderUsername,
+      sender.nickname AS senderNickname,
+      sender.face_image AS senderFaceImage
+    FROM
+      friends_request AS fr
+        LEFT JOIN
+      USER AS sender
+      ON
+        fr.send_user_id = sender.id
+    WHERE
+      fr.accept_user_id = #{acceptUserId};
+  </select>
+
+  <delete id="deleteFriendRequest">
+    delete from friends_request where send_user_id = #{senderUserId} and accept_user_id = #{myid};
+  </delete>
+
+
+</mapper>
